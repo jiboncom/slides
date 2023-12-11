@@ -368,13 +368,13 @@ Product reformulation with endogenous unobservables
 ## random coefficients demand model
 Heterogenous preferences over the observed `$(x_j, p_j)$` and unobserved `$(f_j)$` characteristics. 
 
-Following Berry *et al.* (BLP; 1995), I rewrite individual’s utility in terms of the average utility of product j on market t `$(\delta_{jt})$`.
+Following Berry *et al.* (BLP; 1995), I write individual’s utility in terms of the average utility `$(\delta_{jt})$`.
 </div>
 
 
 
 
-`$U(i,j,t) = \underset{\delta_{jt}}{\underbrace{(\beta_t \cdot x_j+\lambda_t \cdot f_j+e_{jt})}} + \tilde{\beta}_i \cdot p_j + \epsilon_{ijt}$` 
+`$U(i,j,t) = \underset{\delta_{jt}}{\underbrace{(\alpha_t\cdot [p_{jt}+\tau(x_{jt})]+\beta_t \cdot x_j+\lambda_t \cdot f_j+e_{jt})}} + \tilde{\beta}_i \cdot p_j + \epsilon_{ijt}$` 
 
 with `$\beta_t=\beta+\beta_w \cdot w_t$` and `$\tilde{\beta}_i \sim N(0, \Sigma)$`
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
@@ -401,7 +401,7 @@ Conditional on `$\Sigma$`, there is a one-to-one mapping between `$s_{jt}$` and 
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 986.9999999999999px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
-### The unobserved utility effect as a factor model
+### The unobserved utility as a factor model
 
 I allow arbitrary correlation between the utility of unobserved and observed product characteristics using <mark>Interactive Fixed Effects (IFE)</mark>. 
 
@@ -419,19 +419,20 @@ Moon et al. (2018) show `$\lambda_t * f_j=\left[\begin{array}{lll}\lambda_tf_j& 
 
 <div class="block">
 
-<mark>Joint identification is not enough</mark> for welfare calculations of reformulation because Interactive Fixed Effects models are weakly identified:
+<mark>Joint identification is not enough</mark> for welfare calculations of reformulation because Interactive Fixed Effects models are weakly identified: 
 
+- Can't differentiate consumer preferences from product changes. 
 - Only upon scaling & rotations: `$\Lambda F = (\Lambda H^{-1})(HF)$`. 
 - Relies in arbitrary regularization conditions:
 	- Orthonormal factors: `$F^\prime F=\mathbb{I}_J$`
 	- Orthogonal loadings: `$\Lambda^\prime \Lambda$` diagonal
 
-This gives them ambiguous, even inconsistent, economic interpretation: Can't differentiate changes to preferences from product changes. 
+This gives them ambiguous, even inconsistent, economic interpretation.
 </div>
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 986.9999999999999px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
-I address these limitations by replacing the standard regularizations with moment conditions derived from a model of firms' product choices. 
+I address these limitations by replacing the regularizations with moment conditions derived from a model of firms' product choices. 
 
 ## firms problem: a two-stage game
 
@@ -498,14 +499,14 @@ Then, it can be shown that:
 
 1. The conditional factor model is identified.
 
-`$\delta_{jt}(\Sigma) = (\beta + \beta_w \cdot w_t) \cdot x_j + \lambda_t \cdot f_j + \gamma \cdot z_{jt}+\epsilon_{jt}$` (Bai. 2009; Moon & Weidner, 2015)
+`$\delta_{jt}(\Sigma) = (\beta + \beta_w \cdot w_t) \cdot x_j + \lambda_t \cdot f_j + \gamma \cdot z_{jt}+\epsilon_{jt}$` <small>(Bai. 2009; Moon & Weidner, 2015)</small>
 
 
 
 2.  `$\Sigma$` can be identified using the exclusion restriction.
 
-`$\mathbb{E}[\delta_{jt} \cdot z_{jt}|x_j,f_j]=0\leftrightarrow \gamma_0 = 0$`
-(Moon _et al._ 2018)
+`$\mathbb{E}[\delta_{jt} \cdot z_{jt}|x_j,f_j]=0\leftrightarrow \gamma_0 = 0 \leftrightarrow \Sigma = \Sigma_0$`
+<small>(Moon _et al._ 2018)</small>
 </div>
 
 
@@ -520,7 +521,7 @@ Therefore, we can first identify `$\Sigma_0$` by finding the value that makes `$
 
 ## non-linear factor model with unbalanced panel
 
-This is known as the <mark>Minimum Distance - Least Square</mark> estimator presented in Moon _et al._ (2018).
+This is known as the <mark>Minimum Distance - Least Square (LSMD)</mark> estimator presented in Moon _et al._ (2018).
 
 $
 \underset{\Sigma}{\min}
@@ -596,10 +597,10 @@ To illustrate the necessity of accounting for endogenous unobservables when esti
 
 # Simulation: Estimation results
 
-||True|BLP|<mark>LSMD</mark>|BLP Bias (%)|<mark>LSMD Bias (%)</mark>|
+|Variable|True|BLP|<mark>LSMD</mark>|BLP Bias (%)|<mark>LSMD Bias (%)</mark>|
 |---|---|---|---|---|---|
-|prices|2.0|-0.1128|<mark>2.4678</mark>|-105.64|<mark>23.39</mark>|
-|x2|1.0|0.7065|<mark>0.8936</mark>|-29.35|<mark>-10.64</mark>|
+|*endogenous*|2.0|-0.1128|<mark>2.4678</mark>|-105.64|<mark>23.39</mark>|
+|*exogenous*|1.0|0.7065|<mark>0.8936</mark>|-29.35|<mark>-10.64</mark>|
 
 The <mark>LSMD estimator effectively recovers the coefficients</mark> with less bias.
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
@@ -623,6 +624,24 @@ Using a different approach, [Petrin *et al.* (2022, NBER WP)](https://www-nber-o
 For example, <mark>assuming taste is the only unobservable</mark>, a positive correlation with sugar content would likely lead to a lower coefficient estimates for sugar content. 
 
 </div>
+</div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
+<div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 986.9999999999999px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
+
+# Using the model to answer questions
+
+<div class="block">
+
+### What products get reformulated?
+- Characterize the reformulated products in terms of market shares, prices, unobserved utility, markups and costs.
+
+### How does reformulation affect the policy outcomes?
+- Counterfactual evaluation of the policy outcomes with and without reformulation.
+
+### How does the change in costs compare to the savings from less taxes?
+- Reformulation may change the attractiveness of the product, but it helps to avoid higher taxes.
+
+### How those the policy interact with the market structure?
+- Simulate firm mergers before & after the tax and compare expected profits.
 </div></script></section><section  data-markdown><script type="text/template"><!-- .slide: class="drop" -->
 <div class="" style="position: absolute; left: 0px; top: 0px; height: 700px; width: 986.9999999999999px; min-height: 700px; display: flex; flex-direction: column; align-items: center; justify-content: center" absolute="true">
 
